@@ -1,4 +1,4 @@
-from awair import awair
+from pyawair import awair
 
 if __name__ == "__main__":
     import datetime
@@ -9,29 +9,24 @@ if __name__ == "__main__":
     api =  awair(username, password) #Let's authenticate
 
     devices = api.devices() #Grab the devices that are on your account
-    
-    today = datetime.datetime.today() 
+
+    today = datetime.datetime.today()
     yesterday = today - datetime.timedelta(days=1)
 
     for device in devices:  #Let's iterate through devices
-      print(device) #Print the device 
+      print(device) #Print the device
 
       print("Let's grab the weather")
-      print(api.weather(latitude=device['latitude'],longitude=device['longitude']))
+      print(api.weather(latitude=device['latitude'], longitude=device['longitude']))
 
       print("Timeline from yesterday to today")
-      print(api.timeline(device['id'], str(yesterday.isoformat()), str(today.isoformat())))
-      
+      # The date input is parsed by arrow and converted into the correct format
+      print(api.timeline(device, from_date=yesterday.isoformat(), to_date=today.isoformat()))
+
       print("Event score")
-      print api.events_score(device['id'])
-      
-      device_id = device['id'] #Store the last device id for the next part
+      print api.events_score(device)
 
+      inbox = api.inbox_items(device, limit=10)
+      for message in inbox:
+        print(message)
 
-    inbox = api.inbox() #Grab inbox
-    for message in inbox: #iterate through messages in inbox
-      print message #Print the message
-      
-      if message['title']=='Sleep Report':
-        print("Printing sleep report for " + message['timestamp'])
-        print(api.sleep_report(device_id, message['timestamp']))
