@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="pyawair-jwoglom",
-    version="0.0.1",
+    version="0.0.2",
     author="jwoglom forked from harperreed",
     description="A very simple python class to access the (private) awair api",
     long_description=open('README.md').read(),
