@@ -1,5 +1,9 @@
 import requests
 import json
+try:
+  from urllib.parse import urlencode
+except ImportError:
+  from urllib import urlencode
 
 class awair:
 
@@ -17,7 +21,7 @@ class awair:
   def make_request(self, url, params=None, method='GET'):
     headers = { "Authorization":"Bearer " + self.access_token}
     if params:
-      params = urllib.urlencode(params, True).replace('+', '%20')
+      params = urlencode(params, True).replace('+', '%20')
     if method == 'GET':
       r = requests.get(url, params=params, headers=headers)
     elif method == 'POST':
